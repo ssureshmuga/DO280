@@ -1,0 +1,240 @@
+    1  podman ps
+    2  podman images
+    3  podman network ls
+    4  podman volume ls
+    5  lab start declarative-manifests
+    6  oc login -u developer -p developer https://api.ocp4.example.com:6443
+    7  oc project
+    8  oc projects
+    9  oc login -u admin -p redhat 
+   10  oc whoami 
+   11  oc new-project declarative-manifests
+   12  oc projects
+   13  oc new-project suresh
+   14  oc projects
+   15  oc project declarative-manifests 
+   16  oc projects
+   17  cd DO280/labs/declarative-manifests/
+   18  ls
+   19  git clone https://git.ocp4.example.com/developer/declarative-manifests.git
+   20  ls
+   21  cd declarative-manifests/
+   22  ls
+   23  ll
+   24  cat database.yaml 
+   25  ll
+   26  cat exoplanets.yaml 
+   27  ll
+   28  git log --online
+   29  git log --oneline
+   30  git status
+   31  git checkout v1.0
+   32  git status
+   33  oc apply -f --dry-run=server --validate=true
+   34  oc apply -f . --dry-run=server --validate=true
+   35  oc apply -f .
+   36  oc get pods
+   37  oc get pods -w
+   38  oc get pods,deployment
+   39  oc login -u developer -p developer https://api.ocp4.example.com:6443
+   40  oc get pod
+   41  oc get routes.route.openshift.io 
+   42  git checkout v1.1.0
+   43  cd DO280/labs/declarative-manifests/declarative-manifests/
+   44  ll
+   45  git checkout v1.1.0
+   46  oc diff -f .
+   47  oc apply -f .
+   48  oc get pod
+   49  oc get pod -w
+   50  oc get routes.route.openshift.io 
+   51  curl exoplanets-declarative-manifests.apps.ocp4.example.com
+   52  oc rollout restart deployment/database 
+   53  oc rollout restart deployment/exoplanets 
+   54  oc get pod
+   55  oc get pod -w
+   56  oc get routes.route.openshift.io 
+   57  kubectl delete -f .
+   58  cd
+   59   lab finish declarative-manifests
+   60   lab start declarative-kustomize
+   61  cd DO280/labs/declarative-kustomize/
+   62  git clone https://git.ocp4.example.com/developer/declarative-kustomize.git
+   63  cd declarative-kustomize/
+   64  tree 
+   65  oc new-project declarative-kustomize
+   66  oc get pod
+   67  oc get pods
+   68  oc apply -k base
+   69  oc get all -w
+   70  oc get all 
+   71  oc get all w
+   72  oc get pod -w
+   73  git checkout v1.1.1
+   74  git show
+   75  oc apply -k base
+   76  oc get all -w
+   77  watch oc get all 
+   78  git checkout v1.1.2
+   79  git show
+   80  watch oc get all 
+   81  oc get secrets 
+   82  oc get secret
+   83  oc extract secret/db-secrets-55cbgc8c6m --to=
+   84  oc extract secret/db-secrets-55cbgc8c6m --to=-
+   85  oc apply -k base
+   86  watch oc get all 
+   87  oc get deployment exoplanets -o jsonpath='{.spec.template.spec.containers[0].envFrom}'
+   88  oc extract secret/db-secrets-6h668tk789 --to=-
+   89  git checkout v1.1.3
+   90  oc apply -k overlays/production
+   91  watch oc get all 
+   92  oc delete -k base
+   93  cd
+   94  exoplanets-declarative-kustomize.apps.ocp4.example.com
+   95   lab finish declarative-kustomize
+   96  oc login -u developer -p developer https://api.ocp4.example.com:6443
+   97  lab start  auth-providers 
+   98  oc login -u developer -p developer https://api.ocp4.example.com:6443
+   99  oc get nodes
+  100  oc login -u admin -p redhatocp https://api.ocp4.exmaple.com:6443
+  101  oc logi -u developer -p developer https://api.ocp4.example.com:6443
+  102  oc logout 
+  103  oc whoami 
+  104  htpasswd -c -B -b htpasswd suresh redhat 
+  105  htpasswd -b htpasswd anto redhat
+  106  cat htpasswd 
+  107  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  108  oc create secret generic localuser --from-file htpasswd=/home/student/htpasswd -n openshift-config 
+  109  oc get secrets -n openshift-config
+  110  oc get oauth cluster -o yaml > /tmp/oauth.yml
+  111  vim /tmp/oauth.yml 
+  112  oc replace -f /tmp/oauth.yml 
+  113  oc get pod -n openshift-authentication -w
+  114  oc login -u suresh -p redhat 
+  115  oc login -u admin -p redhatocp4
+  116  oc login -u admin -p redhatocp
+  117  oc adm policy add-cluster-role-to-user cluster-admin suresh
+  118  oc new-project test
+  119  oc adm policy add-role-to-user admin anto -n test
+  120  oc login -u suresh -p redhat 
+  121  oc login -u anto -p redhat
+  122  oc get user
+  123  oc get users
+  124  oc login -u suresh -p redhat 
+  125  oc get users
+  126  oc extract secret/localuser -n openshift-config --to /tmp/ --confirm 
+  127  cat /tmp/htpasswd 
+  128  htpasswd -b /tmp/htpasswd ramesh redhat
+  129  oc set data secret --from-file htpasswd=/tmp/htpasswd -n openshift-config
+  130  oc set data secret/localuser --from-file htpasswd=/tmp/htpasswd -n openshift-config
+  131  oc login -u ramesh -p redhat
+  132  oc replace -f /tmp/oauth.yml -n openshift-config
+  133  oc get pods -n openshift-authentication -w
+  134  oc login -u ramesh -p redhat
+  135  history 
+  136  ll
+  137  mkdir test
+  138  cd test/
+  139  git clone https://github.com/ssureshmuga/DO280
+  140  ll
+  141  cd ..
+  142  history > test/history.txt
+  143  cd test/
+  144  ll
+  145  mv history.txt DO280/
+  146  cd DO280/
+  147  ll
+  148  git add .
+  149  git commit -m "add files"
+  150  git push
+  151  lab start  auth-providers 
+  152  oc login -u ramesh -p redhat
+  153  oc login -u admin -p redhat
+  154  oc login -u admin -p redhatocp
+  155  htpasswd -D /tmp/htpasswd ramesh
+  156  cat /tmp/htpasswd 
+  157  oc set data secrets/localuser --from-file=/tmp/htpasswd -n openshift-config
+  158  oc get pod -n openshift-config
+  159  oc get pod -n openshift-authentication
+  160  oc get pod -n openshift-authentication -w
+  161  oc login -u ramesh -p redhat
+  162  oc login -u admin -p redhatocp
+  163  oc get pod -n openshift-authentication -w
+  164  oc set data secrets/localuser --from-file=/tmp/htpasswd -n openshift-config
+  165  oc get pod -n openshift-authentication -w
+  166  oc get users
+  167  ll
+  168  oc login -u ramesh -p redhat
+  169  oc login -u admin -p redhatocp
+  170  htpasswd -D /tmp/htpasswd anto
+  171  cat /tmp/htpasswd 
+  172  oc set data secrets/localuser --from-file=/tmp/htpasswd -n openshift-config
+  173  oc get pod -n openshift-authentication -w
+  174  oc login -u anto -p redhat
+  175  oc login -u ramesh -p redhat
+  176  ll
+  177  cd /tmp/
+  178  ll
+  179  vim oauth.yml 
+  180  oc replace -f oauth.yml 
+  181  cd
+  182  oc replace -f /tmp/oauth.yml 
+  183  oc apply -f /tmp/oauth.yml 
+  184  oc get pods -n openshift-authentication -w
+  185  vim /tmp/oauth.yml 
+  186  oc login -u suresh -p redhat
+  187  oc edit oauth
+  188  htpasswd -b htpasswd suresh redhat
+  189  htpasswd -b htpasswd anto redhat
+  190  htpasswd -b htpasswd ramesh redhat
+  191  htpasswd -b htpasswd mahesh redhat
+  192  htpasswd -b htpasswd john redhat
+  193  oc edit oauth
+  194  oc get pods -n openshift-authentication -w
+  195  oc login -u suresh -p redhat
+  196  oc login -u admin -p redhatocp
+  197  oc adm policy remove-cluster-role-from-user cluster-admin suresh
+  198  oc login -u suresh -p redhat
+  199  oc login -u admin -p redhatocp
+  200  oc adm policy remove-cluster-role-from-group self-provisioner system:authenticate:oauth
+  201  oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+  202  oc login -u suresh -p redhat
+  203  oc login -u admin -p redhatocp
+  204* oc adm policy add-cluster-role-to-user cluster-admin
+  205  oc new-project test
+  206  oc adm policy add-role-to-user admin anto -n test
+  207  oc login -u suresh -p redhat
+  208  oc login -u anto -p redhat
+  209  cat htpasswd 
+  210  oc login -u anto -p redhat
+  211  oc login -u john -p redhat
+  212  oc login -u anto -p redhat
+  213  oc whoami 
+  214  oc logout 
+  215  oc whoami 
+  216  oc login -u anto -p redhat 
+  217  oc login -u admin -p redhatocp
+  218  oc set data secrets/localuser --from-file=htpasswd=htpasswd -n openshift-config
+  219  oc get pods -n openshift-authentication -w
+  220  oc c login -u anto -p redhat
+  221  oc login -u anto -p redhat
+  222  oc new-project sample
+  223  cat htpasswd 
+  224  oc adm groups new prod
+  225  oc login -u admin -p redhatocp
+  226  oc adm groups new prod
+  227  oc adm groups add-users prod mahesh,john
+  228  oc adm policy add-cluster-role-to-group cluster-admin prod
+  229  oc login -u mahesh -p redhat
+  230  oc new-project sample2
+  231  oc adm groups add-users prod mahesh
+  232  oc login -u admin -p redhatocp
+  233  oc adm groups add-users prod mahesh
+  234  oc login -u mahesh -p redhat
+  235  oc login -u admin -p redhatocp
+  236  oc adm groups add-users prod mahesh john
+  237  oc login -u john -p redhat
+  238  ll
+  239  ll test/
+  240  history > test/DO280/history1.txt
