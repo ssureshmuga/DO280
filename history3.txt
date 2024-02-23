@@ -1,0 +1,243 @@
+    1  oc login  -u admin -p rehatocp4 https://api.ocp4.example.com:6443
+    2  oc login  -u admin -p rehatocp https://api.ocp4.example.com:6443
+    3  lab start auth-providers 
+    4  oc login  -u admin -p rehatocp https://api.ocp4.example.com:6443
+    5  oc login  -u admin -p redzatocp https://api.ocp4.example.com:6443
+    6  oc login  -u admin -p redhatocp https://api.ocp4.example.com:6443
+    7  oc project test
+    8  oc new-project test
+    9  oc get quota
+   10  oc create resourcequoata sample --hard=count/scale=2
+   11  oc create resourcequota sample --hard=count/scale=2
+   12  oc get quota
+   13  oc new-app --name mynginx --image nginx
+   14  oc get pod -w
+   15  oc logs nginx
+   16  oc logs mynginx-647cdf4df9-tv8bs
+   17  oc delete all --selector app=mynginx
+   18  oc new-app --name=mynginx --image=registry.ocp4.example.com:8443/redhattraining/hello-world-nginx
+   19  oc get pod -w
+   20  oc scale --replicas=5 deployment/mynginx
+   21  oc get pod -w
+   22  oc create resourcequota sample --hard=count/pods=2
+   23  oc create resourcequota sample1 --hard=count/pods=2
+   24  oc get pod -w
+   25  oc delete all --selector app=mynginx
+   26  oc get all
+   27  oc new-app --name=mynginx --image=registry.ocp4.example.com:8443/redhattraining/hello-world-nginx
+   28  oc get pod -w
+   29  oc scale --replicas=5 deployment/mynginx
+   30  oc get pod -w
+   31  lab start selfservice-quotas
+   32  oc login -u developer -p developer https://api.ocp4.example.com:6443/
+   33  oc new-project selfservice-quotas
+   34   oc create deployment test --image registry.ocp4.example.com:8443/redhattraining/hello-world-nginx
+   35  oc get pod -w
+   36  oc set resources deployment test --requests=cpu=1
+   37  oc get pod -w
+   38  oc scale deployment test --replicas=8
+   39  oc get pod -w
+   40  oc get event --sort-by .metadata.creationTimestamp
+   41  oc login -u admin -p redhatocp
+   42  oc adm top node 
+   43  oc describe node/master01
+   44  oc describe node/master01 | grep cpu
+   45   oc new-project test2
+   46  oc create deployment test2 --image registry.ocp4.example.com:8443/redhattraining/hello-world-nginx
+   47  oc get pod -w
+   48   oc set resources deployment test --requests=cpu=1
+   49   oc set resources deployment test2 --requests=cpu=1
+   50  oc get pod -w
+   51  oc delete namespace test
+   52  oc whoami 
+   53  oc adm top node 
+   54   oc project selfservice-quotas
+   55  oc scale deployment test --replicas=1
+   56   oc create quota two-cpus --hard=requests.cpu=2
+   57  oc get quota two-cpus -o yaml
+   58  oc scale deployment test --replicas=8
+   59   oc create deployment test2  --image registry.ocp4.example.com:8443/redhattraining/hello-world-nginx
+   60  oc get pod -w
+   61  oc get quota two-cpus -o yaml
+   62  oc get event --sort-by .metadata.creationTimestamp
+   63  oc get pod -w
+   64  vim quota.yml
+   65  oc create -f quota.yml 
+   66  vim quota.yml
+   67  oc create -f quota.yml 
+   68  vim quota.yml
+   69  oc create -f quota.yml 
+   70  vim quota.yml
+   71  oc create -f quota.yml 
+   72  vim quota.yml
+   73  oc create -f quota.yml 
+   74  vim quota.yml
+   75  oc create -f quota.yml 
+   76  vim quota.yml
+   77  oc create -f quota.yml 
+   78  vim quota.yml
+   79  cp quota.yml quota_pod.yml 
+   80  vim quota_pod.yml
+   81  cp quota.yml quota_pod.yml 
+   82  vim quota_pod.yml
+   83  oc create -f quota_pod.yml 
+   84  oc delete all --selector app=mynginx
+   85  oc projects
+   86   lab finish selfservice-quotas
+   87  oc create -f quota_pod.yml 
+   88  ll
+   89  oc login -u admin -p redhatocp
+   90  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443/
+   91  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+   92  lab start auth-providers 
+   93  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+   94  vi quota_pod.yml 
+   95  oc create -f quota_pod.yml 
+   96  vi quota_pod.yml 
+   97  oc create -f quota_pod.yml 
+   98  vi quota_pod.yml 
+   99  oc create -f quota_pod.yml 
+  100  lab start selfservice-ranges 
+  101  oc whoami 
+  102  oc create -f quota_pod.yml 
+  103  oc --version
+  104  oc -v
+  105  oc --version
+  106  oc --help
+  107  oc version
+  108  oc get co
+  109  oc whoami --console show
+  110  oc whoami --show-console 
+  111  oc new-project forsher
+  112  oc get pod -w
+  113  vi quota_pod.yml 
+  114  vi quota1.yml
+  115  vi quota_pod.yml 
+  116  oc create -f quota_pod.yml 
+  117  vi quota1.yml 
+  118  oc create -f quota1.yml 
+  119  diff quota_pod.yml quota1.yml 
+  120  vi quota_pod.yml 
+  121  oc create -f quota_pod.yml 
+  122  vi quota_pod.yml 
+  123  oc create -f quota_pod.yml 
+  124  vi quota_pod.yml 
+  125  oc create -f quota_pod.yml 
+  126  oc get quota
+  127  oc get quota -n default
+  128  oc get limitranges 
+  129  oc describe limitranges example1
+  130  oc describe limitranges example -n default
+  131  oc project
+  132  oc projects
+  133  vi quota.yml 
+  134  oc create -f quota.yml 
+  135  vi quota.yml 
+  136  oc apply -f quota.yml 
+  137  vi quota.yml 
+  138  oc apply -f quota.yml 
+  139  vi quota.yml 
+  140  oc apply -f quota.yml 
+  141  oc create -f quota.yml 
+  142  vi quota.yml 
+  143  oc apply -f quota.yml 
+  144  oc describe limitranges example1 
+  145  oc describe limitranges example1 -n default
+  146  vi quota.yml 
+  147  oc project default 
+  148  oc apply -f quota.yml 
+  149  oc describe limitranges example1 -n default
+  150  oc describe limitranges example1 
+  151  vi quota.yml 
+  152  oc apply -f quota.yml 
+  153  oc describe limitranges example1 
+  154  oc describe limitranges example1 -n default
+  155  vi quota.yml 
+  156  oc apply -f quota.yml 
+  157  oc describe limitranges example1 -n default
+  158  oc create quota ex280quota --hard pods=3,services=3,replicationcontrollers=3,deployment=6
+  159  oc create quota ex280quota --hard pods=3,services=3,replicationcontrollers=3,deployments=6
+  160  oc create quota ex280quota --hard pods=3,services=3,replicationcontrollers=3
+  161  oc get quota ex280quota
+  162  oc describe quota ex280quota
+  163  oc get service
+  164  lab start appsec-scc
+  165  oc login -u developer -p developer https://api.ocp4.example.com:6443/
+  166  oc new-project appsec-scc
+  167  oc new-app --name gitlab --image registry.ocp4.example.com:8443/redhattraining/gitlab-ce:8.4.3-ce.0
+  168  oc get pod -w
+  169  oc get scc
+  170  oc login -u admin -p redahtocp 
+  171  oc login -u admin -p redhattocp 
+  172  oc login -u admin -p redhatocp 
+  173  oc get scc
+  174  oc logs gitlab-6fd4f89dbc-flhrk 
+  175  oc logs gitlab-6fd4f89dbc-flhrk | oc adm policy scc-subject-review  -f -
+  176  oc logs gitlab-6fd4f89dbc-flhrk -o yaml | oc adm policy scc-subject-review  -f -
+  177  oc logs gitlab-6fd4f89dbc-flhrk -o yml | oc adm policy scc-subject-review  -f -
+  178  oc get gitlab-6fd4f89dbc-flhrk -o yml | oc adm policy scc-subject-review  -f -
+  179  oc describe gitlab-6fd4f89dbc-flhrk -o yml | oc adm policy scc-subject-review  -f -
+  180  oc get pod gitlab-6fd4f89dbc-flhrk -o yml | oc adm policy scc-subject-review  -f -
+  181  oc get pod gitlab-6fd4f89dbc-flhrk -o yaml | oc adm policy scc-subject-review  -f -
+  182  oc login -u developer -p developer
+  183  oc get pod gitlab-6fd4f89dbc-flhrk -o yaml | oc adm policy scc-subject-review  -f -
+  184  oc get pod
+  185  oc get pod gitlab-6fd4f89dbc-wz57s -o yaml | oc adm policy scc-subject-review -f -
+  186  oc create sa git
+  187  oc get sa
+  188  oc adm policy add-scc-to-user anyuid -z git
+  189  oc adm policy add-scc-to-user restricted-v2 -z git
+  190  oc adm policy add-scc-to-user restricted -z git
+  191  oc login -u admin -p redhatocp 
+  192  oc get sa
+  193  oc adm policy add-scc-to-user anyuid -z git
+  194  oc login -u developer -p developer
+  195  oc set sa deployment/gitlab git
+  196  oc get pod
+  197  lab finish appsec-scc
+  198   lab start appsec-api
+  199   cd ~/DO280/labs/appsec-api
+  200  oc login -u admin -p redhatocp 
+  201  oc project configmap-reloader
+  202   oc create sa configmap-reloader
+  203  ll
+  204  vim reloader-deployment.yaml 
+  205  oc apply -f reloader-deployment.yaml
+  206  oc get all
+  207  oc get pod -w
+  208  oc login -u developer -p developer
+  209  oc new-project appsec-api
+  210  oc login -u admin -p redhatocp 
+  211  oc adm policy add-role-to-user edit system:serviceaccount:configmap-reloader:configmap-reloader --rolebinding-name=reloader-edit -n appsec-api
+  212  oc login -u developer -p developer
+  213   oc apply -f ./config-app
+  214  curl -s https://config-app-appsec-api.apps.ocp4.example.com/config | jq
+  215  vi config-app/configmap.yaml 
+  216  vi config-app/deployment.yaml 
+  217  oc apply -f  config-app/deployment.yaml 
+  218  vi config-app/deployment.yaml 
+  219  oc apply -f  config-app/deployment.yaml 
+  220  vi config-app/deployment.yaml 
+  221  oc create -f  config-app/deployment.yaml 
+  222  vi config-app/deployment.yaml 
+  223  oc apply -f  config-app/deployment.yaml 
+  224  vi config-app/deployment.yaml 
+  225  oc apply -f  config-app/deployment.yaml 
+  226  oc whoami 
+  227  oc login -u admin -p redhatocp 
+  228  oc apply -f  config-app/deployment.yaml 
+  229  oc login -u developer -p developer
+  230  oc apply -f  ./config-app/
+  231  curl -s https://config-app-appsec-api.apps.ocp4.example.com/config | jq
+  232  oc get deployment config-app -o yaml
+  233  vim config-app/configmap.yaml 
+  234  oc apply -f config-app/configmap.yaml 
+  235  curl -s https://config-app-appsec-api.apps.ocp4.example.com/config | jq
+  236   lab finish appsec-api
+  237  ll
+  238  mkdir test
+  239  cd test/
+  240  git clone https://github.com/ssureshmuga/DO280
+  241  ll
+  242  cd DO280/
+  243  history > history3.txt
