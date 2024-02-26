@@ -1,0 +1,206 @@
+    1  lab start auth-providers 
+    2  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+    3  htpasswd -c -B -b htpasswd-ex280 jobs redhat 
+    4  htpasswd -B -b htpasswd-ex280 woznaik redhat 
+    5  htpasswd -B -b htpasswd-ex280 collins redhat 
+    6  htpasswd -B -b htpasswd-ex280 alderin redhat 
+    7  htpasswd -B -b htpasswd-ex280 amstrong redhat 
+    8  oc create secret generic htpasswd-idp-ex280 --from-file htpasswd=htpasswd-ex280 -n openshift-config
+    9  oc get oauth cluster -o yaml > oauth.yaml
+   10  oc get top nodes
+   11  oc get top node
+   12  oc whoami 
+   13  vim oauth.yaml 
+   14  oc apply -f oauth.yaml 
+   15  oc get pod -n openshift-authentication -w
+   16  cat oauth.yaml | grep myusers
+   17  vim oauth.yaml 
+   18  oc login -u jobs -p redhat
+   19  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+   20  oc adm policy add-cluster-role-to-user cluster-admin jobs
+   21  oc adm policy add-cluster-role-to-user admin woznaik
+   22  oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+   23  oc login -u amstrong -p redhat
+   24  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+   25  oc get nodes
+   26  oc adm top nodes
+   27  oc get clusterrolebinding | grep jobs
+   28  oc get clusterrolebindings -o wide | grep jobs
+   29  oc get clusterrolebindings -o wide | grep woznaik
+   30  oc get clusterrolebindings -o wide | grep amstrong
+   31  ls
+   32  oc login -u woznaik -p redhat
+   33  oc get nodes
+   34  oc login -u amstrong -p redhat
+   35  oc get nodes
+   36  oc login -u woznaik -p redhat
+   37  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+   38  oc adm policy add-cluster-role-to-user view woznaik
+   39  oc login -u jobs -p redhat
+   40  oc new-project apollo
+   41  oc new-project gemini
+   42  oc new-project titan
+   43  oc new-project bluebook
+   44  oc new-project apache
+   45  oc adm policy add-role-to-user admin amstrong -n apollo
+   46  oc adm policy add-role-to-user admin amstrong -n titan
+   47  oc adm policy add-role-to-user view collins -n apollo
+   48  oc adm groups new commander
+   49  oc adm  groups new pilot
+   50  oc adm groups add-users commander woznaik 
+   51  oc adm groups add-users pilot alderin
+   52  oc policy add-role-to-group edit commander -n apollo
+   53  oc policy add-role-to-group edit commander -n gemini
+   54  oc policy add-role-to-group view pilot -n apache
+   55  oc project apache
+   56  oc create quota ex280-quota --hard cpu=2,memory=1Gi,services=3,pods=3,replicationcontrollers=3
+   57  oc get quota
+   58  oc get quota ex280-quota 
+   59  oc describe quota
+   60  oc project bluebook 
+   61  vim limit.yaml
+   62  oc create -f limit.yaml 
+   63  vim limit.yaml
+   64  oc create -f limit.yaml 
+   65  vim limit.yaml
+   66  oc create -f limit.yaml 
+   67  oc get limitranges 
+   68  oc describe limitranges 
+   69  mdkir test
+   70  oc new-project area51
+   71  oc new-app --name oxcart --image=quay.io/redhattraining/php-ssl:v1.1
+   72  oc get pod -w
+   73  oc logs oxcart-8c5c7b6f9-47rjc 
+   74  oc create sa test
+   75  oc adm policy add-scc-to-user anyuid -z test
+   76  oc set sa deployment/oxcart test
+   77  oc get pod -w
+   78  oc delete all --selector app=oxcart
+   79  ll
+   80  oc new-app --name oxcart --image=docker.io/library/nginx
+   81  oc get pod -w
+   82  oc new-app --name oxcart --image=quay.io/myacme/nginx
+   83  oc get pod -w
+   84  openssl genrsa -out private.key 2048
+   85  openssl req -new -key private.key -out web.csr -subj="/C=US/ST=NC/L=Raleigh/O=RedHat/OU=RHT/CN=oxcart.apps.ocp4.example.com"
+   86* openssl x509 -req -in web.csr -signkey private.key -out pub.crt --
+   87  oc create route edge --service oxcart --key private.key --cert pub.crt --hostname https://oxcart.apps.ocp4.example.com 
+   88  oc get all
+   89  oc create route edge --service oxcart --key private.key --cert pub.crt --hostname https://oxcart.apps.ocp4.example.com
+   90  oc create route edge --service oxcart --key private.key --cert pub.crt --hostname oxcart.apps.ocp4.example.com
+   91  oc get routes.route.openshift.io 
+   92  oc new-project lerna
+   93  oc new-app --name hydra --image=quay.io/myacme/nginx
+   94  oc get pod 
+   95  oc get pods -A
+   96  oc get pods -A | grep area51
+   97  oc scale --replicas=5 deployment/hydra
+   98  oc get pod
+   99  oc new-project guru
+  100  oc new-app --name scala --image=quay.io/myacme/nginx
+  101  oc get pod
+  102  oc autoscale --max 40 --min 6 --cpu-percent 60
+  103  oc autoscale hydra --max 40 --min 6 --cpu-percent 60
+  104  oc autoscale scala --max 40 --min 6 --cpu-percent 60
+  105  oc get pod
+  106  oc autoscale deployment/scala --max 40 --min 6 --cpu-percent 60
+  107  oc get pod
+  108  oc edit deployment/scala 
+  109  oc get pod
+  110  oc get  hpa
+  111  oc new-project math
+  112  oc create secret generic magic --from-literal Decoder_Ring=ASDA142hfh-gfrhhueo-erfdk345v
+  113  oc new-app --name qed --image=quay.io/myacme/nginx
+  114  oc expose service qed
+  115  oc get routes.route.openshift.io 
+  116  curl qed-math.apps.ocp4.example.com
+  117  oc set env secret/magic deployment/qed
+  118  oc set env magic deployment/qed
+  119  oc set env --from secret/magic deployment/qed
+  120  curl qed-math.apps.ocp4.example.com
+  121  oc new-project czech
+  122  oc new-app --name ernie --image=quay.io/redhattraining/hello-openshift
+  123  oc get pod
+  124  oc get pod -w
+  125  oc create configmap ex280-cm --from-literal RESPONSE="six czech cricket critics"
+  126  oc set env --from configmap/ex280-cm deployment/ernie
+  127  oc expose service ernie --hostname ernie.apps.ocp4.example.com
+  128  curl ernie.apps.ocp4.example.com
+  129  oc new-project apple
+  130  oc create sa ex280-sa
+  131  oc adm policy add-scc-to-user anyuid -z ex280-sa
+  132  oc new-app --name orange --image=gitlab/gitlab-ce:8.4.3-ce.0
+  133  oc new-app --name orange --image=registry.ocp4.example.com:8443/redhattraining/gitlab-ce:8.4.3-ce.0
+  134  oc get pod
+  135  oc get pod -w
+  136  oc set  sa deployment/orange ex280-sa
+  137  oc get pod
+  138  cat /etc/chrony.conf n
+  139  timedatectl 
+  140  oc new-project path-finder
+  141  oc new-app --name voyager --image=quay.io/myacme/nginx
+  142  oc get pod
+  143  oc edit deployment/voyager 
+  144  oc get pods -A | grep scala 
+  145  oc edit deployment/scala -n guru
+  146  oc edit deployment/voyager 
+  147  oc get pod
+  148  oc get pod -w
+  149  oc logs voyager
+  150  oc logs voyager-786d7c4749-njq49 
+  151  oc logs voyager-59458b74bd-mngmg 
+  152  oc get pod -w
+  153  oc get events
+  154  oc edit voyager
+  155  oc edit deployment/voyager 
+  156  oc get pod -w
+  157  oc new-project atlas
+  158  oc new-app --name mercury --image=quay.io/myacme/nginx
+  159  vim deny.yaml
+  160  vim allow-all.yaml
+  161  oc get netpol
+  162  oc create -f deny.yaml 
+  163  oc get netpol
+  164  oc create -f allow-all.yaml 
+  165  oc get netpol
+  166  curl rocky.apps.ocp4.example.com:8080
+  167  oc get pod -n bluebook 
+  168  oc get project bluebook 
+  169  oc get pods mercury-5d45b5c56d-p9t7q 
+  170  oc get pod
+  171  oc get pod -A | grep rocky
+  172  vim allow-all.yaml 
+  173  oc get pod -n bluebook 
+  174  vim allow-all.yaml 
+  175  oc get pod -A | grep scala
+  176  oc apply -f allow-all.yaml 
+  177  oc get netpol
+  178  oc get routes.route.openshift.io -n guru
+  179  oc expose service --hostname scala.apps.ocp4.example.com -n guru
+  180  oc get pod -n guru
+  181  oc expose service scala --hostname scala.apps.ocp4.example.com -n guru
+  182  curl scala.apps.ocp4.example.com
+  183  curl scala.apps.ocp4.example.com:8080
+  184  oc new-project space
+  185  oc new-app --name gamma --image=quay.io/redhattraining/hello-world-nginx
+  186  oc expose service gamma --hostname=space.apps.ocp4.example.com
+  187  oc get storageclasses.storage.k8s.io 
+  188  oc describe storageclasses.storage.k8s.io -o yaml
+  189  oc describe storageclasses.storage.k8s.io nfs-storage -o yaml
+  190  oc get storageclasses.storage.k8s.io -o yaml
+  191  oc get pods 
+  192  oc get pods -n nfs-client-provisioner 
+  193* oc get pods -n nfs-client-provisioner -o yaml
+  194  oc whoami --show-console 
+  195  oc get pv
+  196  oc set volumes --claim-name gammapvc --type pvc --add --mount-path /srv deployment/gamma
+  197  oc rsh gamma-644c745dd5-gp99n df-h
+  198  oc rsh gamma-644c745dd5-gp99n df -h
+  199  ll
+  200  mkdir git
+  201  cd git/
+  202  git clone https://github.com/ssureshmuga/DO280
+  203  ll
+  204  cd DO280/
+  205  ll
+  206  history > 280examtraining.txt
