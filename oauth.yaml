@@ -1,0 +1,36 @@
+apiVersion: config.openshift.io/v1
+kind: OAuth
+metadata:
+  creationTimestamp: "2023-09-28T14:08:46Z"
+  generation: 3
+  name: cluster
+  resourceVersion: "346624"
+  uid: c8ba3aad-8360-4c1b-9049-00410bc5d2eb
+spec:
+  identityProviders:
+  - ldap:
+      attributes:
+        email:
+        - mail
+        id:
+        - dn
+        name:
+        - cn
+        preferredUsername:
+        - uid
+      bindDN: uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com
+      bindPassword:
+        name: ldap-secret
+      ca:
+        name: ca-config-map
+      insecure: false
+      url: ldap://idm.ocp4.example.com/cn=users,cn=accounts,dc=ocp4,dc=example,dc=com?uid
+    mappingMethod: claim
+    name: Red Hat Identity Management
+    type: LDAP
+  - htpasswd:
+      fileData:
+        name: htpasswd-idp-ex280
+    mappingMethod: claim
+    name: myusers
+    type: HTPasswd
